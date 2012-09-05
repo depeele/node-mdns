@@ -15,9 +15,9 @@ message:
      anCount: 0,
      nsCount: 0,
      arCount: 0,
-     length: 12 },
-  question: [ { qname: 'popd.ix.netcom.com', qtype: 1, qclass: 1, length: 24 } ],
+     consumed: 12 },
+  question: [ { qname: 'popd.ix.netcom.com', qtype: 1, qclass: 1, consumed: 24 } ],
   answer: [],
   authority: [],
   additional: [],
-  length: 36 }
+  consumed: 36 }
