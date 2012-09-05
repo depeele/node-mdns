@@ -1,0 +1,17 @@
+{
+  "name": "mdns",
+  "description": "mdns library for node.js",
+  "version": "0.0.1",
+  "homepage": "http://github.com/depeele/mdns",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/depeele/mdns.git"
+  },
+  "author": "depeele",
+  "directories": {
+    "lib": "lib"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
