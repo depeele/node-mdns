@@ -1,13 +1,13 @@
 --------------------------------------------------------------
-Unpack mesage from 36 bytes of raw data:
+Unpack mesage from 39 bytes of raw data:
 message:
 { header: 
-   { id: 2,
+   { id: 0,
      qr: 0,
      opcode: 0,
      aa: 0,
      tc: 0,
-     rd: 1,
+     rd: 0,
      ra: 0,
      z: 0,
      ad: 0,
@@ -19,18 +19,18 @@ message:
      arCount: 0,
      consumed: 12 },
   question: 
-   [ { qname: 'popd.ix.netcom.com.',
-       qtype: 1,
+   [ { qname: '2.2.0.10.in-addr.arpa.',
+       qtype: 12,
        qclass: 1,
-       consumed: 24 } ],
+       consumed: 27 } ],
   answer: [],
   authority: [],
   additional: [],
-  consumed: 36 }
+  consumed: 39 }
 --------------------------------------------------------------
-Header: flags[ 0x0100 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
-Packed message (36 bytes):
- 0x0000: 00 02 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 
- 0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 
- 0x0020: 00 01 00 01
+Header: flags[ 0x00 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 0 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
+Packed message (39 bytes):
+ 0x0000: 00 00 00 00 00 01 00 00 00 00 00 00 01 32 01 32 
+ 0x0010: 01 30 02 31 30 07 69 6e 2d 61 64 64 72 04 61 72 
+ 0x0020: 70 61 00 00 0c 00 01
 >>> packed buffer matches original source

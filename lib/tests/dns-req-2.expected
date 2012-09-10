@@ -19,7 +19,7 @@ message:
      arCount: 0,
      consumed: 12 },
   question: 
-   [ { qname: 'popd.ix.netcom.com',
+   [ { qname: 'popd.ix.netcom.com.',
        qtype: 255,
        qclass: 1,
        consumed: 24 } ],

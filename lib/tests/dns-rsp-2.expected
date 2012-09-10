@@ -1,0 +1,62 @@
+--------------------------------------------------------------
+Unpack mesage from 115 bytes of raw data:
+message:
+{ header: 
+   { id: 62281,
+     qr: 1,
+     opcode: 0,
+     aa: 0,
+     tc: 0,
+     rd: 1,
+     ra: 1,
+     z: 0,
+     ad: 0,
+     cd: 0,
+     rcode: 0,
+     qdCount: 1,
+     anCount: 1,
+     nsCount: 2,
+     arCount: 0,
+     consumed: 12 },
+  question: 
+   [ { qname: 'popd.ix.netcom.com.',
+       qtype: 255,
+       qclass: 1,
+       consumed: 24 } ],
+  answer: 
+   [ { name: 'popd.ix.netcom.com.',
+       type: 15,
+       class: 1,
+       ttl: 784,
+       rdata: 
+        { preference: 10,
+          exchange: 'nomail.earthlink.net.',
+          consumed: 26 },
+       consumed: 36 } ],
+  authority: 
+   [ { name: 'ix.netcom.com.',
+       type: 2,
+       class: 1,
+       ttl: 784,
+       rdata: { ns: 'scratchy.earthlink.net.', consumed: 13 },
+       consumed: 23 },
+     { name: 'ix.netcom.com.',
+       type: 2,
+       class: 1,
+       ttl: 784,
+       rdata: { ns: 'itchy.earthlink.net.', consumed: 10 },
+       consumed: 20 } ],
+  additional: [],
+  consumed: 115 }
+--------------------------------------------------------------
+Header: flags[ 0x8180 ]: qr[ 1 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
+Packed message (115 bytes):
+ 0x0000: f3 49 81 80 00 01 00 01 00 02 00 00 04 70 6f 70 
+ 0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 
+ 0x0020: 00 ff 00 01 c0 0c 00 0f 00 01 00 00 03 10 00 18 
+ 0x0030: 00 0a 06 6e 6f 6d 61 69 6c 09 65 61 72 74 68 6c 
+ 0x0040: 69 6e 6b 03 6e 65 74 00 c0 11 00 02 00 01 00 00 
+ 0x0050: 03 10 00 0b 08 73 63 72 61 74 63 68 79 c0 39 c0 
+ 0x0060: 11 00 02 00 01 00 00 03 10 00 08 05 69 74 63 68 
+ 0x0070: 79 c0 39
+>>> packed buffer matches original source
