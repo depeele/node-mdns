@@ -3,7 +3,7 @@ Header: flags[ 0x0100 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 0 
 Unpack mesage from 36 bytes of raw data:
 message:
 { header: 
-   { id: 2,
+   { id: 62281,
      qr: 0,
      opcode: 0,
      aa: 0,
@@ -19,7 +19,11 @@ message:
      nsCount: 0,
      arCount: 0,
      consumed: 12 },
-  question: [ { qname: 'popd.ix.netcom.com', qtype: 1, qclass: 1, consumed: 24 } ],
+  question: 
+   [ { qname: 'popd.ix.netcom.com',
+       qtype: 255,
+       qclass: 1,
+       consumed: 24 } ],
   answer: [],
   authority: [],
   additional: [],
@@ -27,7 +31,7 @@ message:
 --------------------------------------------------------------
 Header: flags[ 0x0100 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Packed message (36 bytes):
- 0x0000: 00 02 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 
+ 0x0000: f3 49 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 
  0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 
- 0x0020: 00 01 00 01
+ 0x0020: 00 ff 00 01
 >>> packed buffer matches original source

@@ -1,0 +1,11 @@
+---------------------------------------------------------------
+Unpack RData from 27 bytes of raw data:
+ 0x0000: 00 19 04 70 6f 70 64 04 62 65 73 74 02 69 78 06 
+ 0x0010: 6e 65 74 63 6f 6d 03 63 6f 6d 00
+RData:
+{ ns: 'popd.best.ix.netcom.com', consumed: 27 }
+---------------------------------------------------------------
+Packed RData (27 bytes):
+ 0x0000: 00 19 04 70 6f 70 64 04 62 65 73 74 02 69 78 06 
+ 0x0010: 6e 65 74 63 6f 6d 03 63 6f 6d 00
+>>> packed buffer matches original source

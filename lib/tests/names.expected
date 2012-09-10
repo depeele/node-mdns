@@ -1,4 +1,4 @@
-name @20 [ {"name":"F.ISI.ARPA","bytes":12} ]
-name @40 [ {"name":"FOO.F.ISI.ARPA","bytes":6} ]
-name @64 [ {"name":"ARPA","bytes":2} ]
-name @92 [ {"name":null,"bytes":1} ]
+name @20 [ "F.ISI.ARPA" ]
+name @40 [ "FOO.F.ISI.ARPA" ]
+name @64 [ "ARPA" ]
+name @92 [ null ]

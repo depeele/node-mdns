@@ -1,0 +1,25 @@
+--------------------------------------------------------------
+Header: flags[ 0x8580 ]: qr[ 1 ], opcode[ 0 ], aa[ 1 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
+Unpack Header from 12 bytes of raw data:
+Header:
+{ id: 2,
+  qr: 1,
+  opcode: 0,
+  aa: 1,
+  tc: 0,
+  rd: 1,
+  ra: 1,
+  z: 0,
+  ad: 0,
+  cd: 0,
+  rcode: 0,
+  qdCount: 1,
+  anCount: 3,
+  nsCount: 6,
+  arCount: 6,
+  consumed: 12 }
+--------------------------------------------------------------
+Header: flags[ 0x8580 ]: qr[ 1 ], opcode[ 0 ], aa[ 1 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
+Packed Header (12 bytes):
+ 0x0000: 00 02 85 80 00 01 00 03 00 06 00 06
+>>> packed buffer matches original source
