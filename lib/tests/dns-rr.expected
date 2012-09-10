@@ -6,7 +6,6 @@ Unpack RR from 45 bytes of raw data:
 RR:
 { name: 'popd.ix.netcom.com',
   type: 5,
-  typeStr: 'CNAME',
   class: 1,
   ttl: 60,
   rdata: { cname: 'hx.oetcom.bom', consumed: 17 },
@@ -24,7 +23,6 @@ Unpack RR from 24 bytes of raw data:
 RR:
 { name: 'popd.ix.netcom.com',
   type: 5,
-  typeStr: 'CNAME',
   class: 1,
   ttl: 60,
   rdata: { cname: 'popd.best.ix.netcom.com', consumed: 14 },
@@ -41,7 +39,6 @@ Unpack RR from 18 bytes of raw data:
 RR:
 { name: 'popd.best.ix.netcom.com',
   type: 5,
-  typeStr: 'CNAME',
   class: 1,
   ttl: 0,
   rdata: { cname: 'ix6.ix.netcom.com', consumed: 8 },
@@ -58,7 +55,6 @@ Unpack RR from 16 bytes of raw data:
 RR:
 { name: 'ix6.ix.netcom.com',
   type: 1,
-  typeStr: 'A',
   class: 1,
   ttl: 7200,
   rdata: { a: '199.182.120.6', consumed: 6 },

@@ -1,5 +1,4 @@
 --------------------------------------------------------------
-Header: flags[ 0x8580 ]: qr[ 1 ], opcode[ 0 ], aa[ 1 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Unpack Header from 12 bytes of raw data:
 Header:
 { id: 2,

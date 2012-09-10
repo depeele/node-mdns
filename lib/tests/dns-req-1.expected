@@ -1,5 +1,4 @@
 --------------------------------------------------------------
-Header: flags[ 0x0100 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Unpack mesage from 36 bytes of raw data:
 message:
 { header: 
