@@ -23,7 +23,7 @@ message:
        qtype: 1,
        qclass: 1,
        consumed: 24 } ],
-  answer: 
+  rr: 
    [ { name: 'popd.ix.netcom.com.',
        type: 5,
        class: 1,
@@ -41,9 +41,8 @@ message:
        class: 1,
        ttl: 7200,
        rdata: { a: '199.182.120.6', consumed: 6 },
-       consumed: 16 } ],
-  authority: 
-   [ { name: 'ix.netcom.com.',
+       consumed: 16 },
+     { name: 'ix.netcom.com.',
        type: 2,
        class: 1,
        ttl: 7200,
@@ -78,9 +77,8 @@ message:
        class: 1,
        ttl: 7200,
        rdata: { ns: 'dfw-ixns2.ix.netcom.com.', consumed: 14 },
-       consumed: 24 } ],
-  additional: 
-   [ { name: 'ns1.ix.netcom.com.',
+       consumed: 24 },
+     { name: 'ns1.ix.netcom.com.',
        type: 1,
        class: 1,
        ttl: 7200,

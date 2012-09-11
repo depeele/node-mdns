@@ -21,9 +21,7 @@ message:
   question: 
    [ { qname: '_http._tcp.', qtype: 1, qclass: 1, consumed: 16 },
      { qname: '_http._tcp.', qtype: 28, qclass: 1, consumed: 6 } ],
-  answer: [],
-  authority: [],
-  additional: [],
+  rr: [],
   consumed: 34 }
 --------------------------------------------------------------
 Header: flags[ 0x00 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 0 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
