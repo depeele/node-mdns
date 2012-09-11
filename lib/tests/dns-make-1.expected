@@ -1,0 +1,14 @@
+--------------------------------------------------------------
+Generated message: Header: id:2, qr:0, opcode:0, aa:0, tc:0, rd:1, ra:0, z:0, ad:0, cd:0, rcode:0, 
+      : qdCount:1, anCount:0, nsCount:0, arCount:0
+
+1 question
+   0: popd.ix.netcom.com.: qtype:1 (A), qclass:1 (IN)
+
+--------------------------------------------------------------
+Header: flags[ 0x0100 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
+Packed message (36 bytes):
+ 0x0000: 00 02 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 
+ 0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 
+ 0x0020: 00 01 00 01
+>>> packed buffer matches original source
