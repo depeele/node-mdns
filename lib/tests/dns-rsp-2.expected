@@ -23,7 +23,7 @@ message:
        qtype: 255,
        qclass: 1,
        consumed: 24 } ],
-  rr: 
+  answer: 
    [ { name: 'popd.ix.netcom.com.',
        type: 15,
        class: 1,
@@ -32,8 +32,9 @@ message:
         { preference: 10,
           exchange: 'nomail.earthlink.net.',
           consumed: 26 },
-       consumed: 36 },
-     { name: 'ix.netcom.com.',
+       consumed: 36 } ],
+  authority: 
+   [ { name: 'ix.netcom.com.',
        type: 2,
        class: 1,
        ttl: 784,
@@ -45,9 +46,9 @@ message:
        ttl: 784,
        rdata: { ns: 'itchy.earthlink.net.', consumed: 10 },
        consumed: 20 } ],
+  additional: [],
   consumed: 115 }
 --------------------------------------------------------------
-Header: flags[ 0x8180 ]: qr[ 1 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Packed message (115 bytes):
  0x0000: f3 49 81 80 00 01 00 01 00 02 00 00 04 70 6f 70 
  0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 

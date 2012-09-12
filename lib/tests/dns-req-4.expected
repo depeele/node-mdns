@@ -23,10 +23,11 @@ message:
        qtype: 12,
        qclass: 1,
        consumed: 27 } ],
-  rr: [],
+  answer: [],
+  authority: [],
+  additional: [],
   consumed: 39 }
 --------------------------------------------------------------
-Header: flags[ 0x00 ]: qr[ 0 ], opcode[ 0 ], aa[ 0 ], tc[ 0 ], rd[ 0 ], ra[ 0 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Packed message (39 bytes):
  0x0000: 00 00 00 00 00 01 00 00 00 00 00 00 01 32 01 32 
  0x0010: 01 30 02 31 30 07 69 6e 2d 61 64 64 72 04 61 72 

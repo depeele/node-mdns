@@ -23,7 +23,7 @@ message:
        qtype: 1,
        qclass: 1,
        consumed: 24 } ],
-  rr: 
+  answer: 
    [ { name: 'popd.ix.netcom.com.',
        type: 5,
        class: 1,
@@ -41,8 +41,9 @@ message:
        class: 1,
        ttl: 7200,
        rdata: { a: '199.182.120.6', consumed: 6 },
-       consumed: 16 },
-     { name: 'ix.netcom.com.',
+       consumed: 16 } ],
+  authority: 
+   [ { name: 'ix.netcom.com.',
        type: 2,
        class: 1,
        ttl: 7200,
@@ -77,8 +78,9 @@ message:
        class: 1,
        ttl: 7200,
        rdata: { ns: 'dfw-ixns2.ix.netcom.com.', consumed: 14 },
-       consumed: 24 },
-     { name: 'ns1.ix.netcom.com.',
+       consumed: 24 } ],
+  additional: 
+   [ { name: 'ns1.ix.netcom.com.',
        type: 1,
        class: 1,
        ttl: 7200,
@@ -116,7 +118,6 @@ message:
        consumed: 16 } ],
   consumed: 310 }
 --------------------------------------------------------------
-Header: flags[ 0x8580 ]: qr[ 1 ], opcode[ 0 ], aa[ 1 ], tc[ 0 ], rd[ 1 ], ra[ 1 ], z[ 0 ], ad[ 0 ], cd[ 0 ], rcode[ 0 ]
 Packed message (310 bytes):
  0x0000: 00 02 85 80 00 01 00 03 00 06 00 06 04 70 6f 70 
  0x0010: 64 02 69 78 06 6e 65 74 63 6f 6d 03 63 6f 6d 00 
