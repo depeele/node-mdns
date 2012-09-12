@@ -16,7 +16,7 @@ client.on('close', function() {
 });
 
 client.on('message', function(msg, rinfo) {
-    var message = new Mdns.Dns.Message(msg);
+    var message = new Mdns.Message(msg);
 
     console.log(  "========================================================\n"
                 + "message from %s:%s: (%d bytes)\n"
