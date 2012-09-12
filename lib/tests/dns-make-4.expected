@@ -1,7 +1,7 @@
 --------------------------------------------------------------
 Generated message:
-Header: id:4660, qr:1, opcode:0, aa:0, tc:0, rd:0, ra:1, z:0, ad:0, cd:0, 
-      : rcode:0, qdCount:1, anCount:3, nsCount:4, arCount:5
+Header: id:4660, qr:1 (response), opcode:0, aa:0, tc:0, rd:0, ra:1, z:0, ad:0, 
+      : cd:0, rcode:0 (NOERROR), qdCount:1, anCount:3, nsCount:4, arCount:5
 
 1 question
    0: test.local: qtype:1 (A), qclass:1 (IN)
