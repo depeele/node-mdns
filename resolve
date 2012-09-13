@@ -1,0 +1,162 @@
+#!/usr/bin/env node
+var Dgram       = require('dgram'),
+    Path        = require('path'),
+    Mdns        = require('./lib/mdns'),
+    Utils       = require('./lib/utils'),
+    prog        = Path.basename(process.argv[1]),
+    argv        = process.argv.slice(2),
+    argc        = argv.length,
+    request     = {question:[]},
+    types       = [ 'A' ];
+
+/************************************************************************
+ * Process arguments
+ *
+ */
+for (var idex = 0; idex < argc; idex++)
+{
+    var arg = argv[idex];
+
+    switch (arg)
+    {
+    case '-s':
+    case '--server':
+        var addr        = argv[++idex],
+            withPort    = addr.match(/^([^:]+):([0-9]+)/),
+            port        = null;
+        if (withPort)
+        {
+            addr = withPort[0];
+            port = withPort[1];
+        }
+        if (! request.server)   { request.server = {}; }
+
+        request.server.address = addr;
+        if (port)   { request.server.port = port; }
+        break;
+
+    case '-p':
+    case '--port':
+        if (! request.server)   { request.server = {}; }
+
+        request.server.port = argv[++idex];
+        break;
+
+    case '-t':
+    case '--type':
+        types = argv[++idex].split(/\s*,\s*/);
+
+        types.forEach(function(type, idex) {
+            var val     = type;
+
+            if (type.match(/^(0x[0-9a-f]+|0[0-7]+|[0-9]+)$/i))
+            {
+                val = parseInt(type);
+                if (! Mdns.consts.type2str(val))
+                {
+                    val = null;
+                }
+            }
+            else
+            {
+                val = Mdns.consts.str2type( type );
+            }
+
+            if (! val)
+            {
+                console.log(  "*** Invalid type '%s'\n"
+                            + "***    Valid string  values:\n"
+                            + "***     %j\n"
+                            + "***\n"
+                            + "***    Valid numeric values:\n"
+                            + "***     %j",
+                            type,
+                            Object.keys(Mdns.consts.TYPE_STR),
+                            Object.keys(Mdns.consts.TYPE_INT));
+
+                process.exit(-1);
+            }
+
+
+            types[idex] = val;
+        });
+console.log('types: %j', types);
+        break;
+
+    case '--timeout':
+        request.timeout = argv[++idex];
+        break;
+
+    case '-?':
+    case '-h':
+    case '--help':
+        console.log(  "Usage: %s [options] quer(ies)\n"
+                    + "     :     options:\n"
+                    + "     :       -s server[:port] \n"
+                    + "     :       -p port\n"
+                    + "     :       -t query-type\n"
+                    + "     :       --timeout secs\n",
+                    prog);
+        process.exit(0);
+        break;
+
+    default:
+        types.forEach(function(type) {
+            request.question.push( {qname: arg, qtype: type} );
+        });
+        break;
+    }
+}
+
+/************************************************************************
+ * Begin resolution
+ *
+ */
+var resolve = Mdns.Resolve( request );
+
+resolve.on('listening', function(ainfo) {
+    console.log('Awaiting mDNS responses on %s:%s...',
+                ainfo.address, ainfo.port);
+});
+
+resolve.on('error', function(e) {
+    console.log('*** Error: %s', e);
+});
+
+resolve.on('timeout', function() {
+    console.log('*** timeout');
+    process.exit(0);
+});
+
+resolve.on('end', function() {
+    console.log('complete');
+});
+
+resolve.on('response', function(records, rinfo, response, raw) {
+    console.log(  "========================================================\n"
+                + "Response from %s:%s: (%d records)\n"
+                + "%s",
+                rinfo.address, rinfo.port, records.length,
+                JSON.stringify(records, null, 2));
+    //return;
+
+    console.log(  "========================================================\n"
+                + "Response from %s:%s: (%d bytes)\n"
+                + "--------------------------------------------------------\n"
+                + "%s\n"
+                + "--------------------------------------------------------\n"
+                + "%d bytes as raw data:\n"
+                + "%s\n",
+                rinfo.address, rinfo.port, raw.length,
+                response,
+                raw.length,
+                Utils.buf2hex(raw, {octetsPer: 16, ascii: true}));
+});
+
+var res = resolve.begin();
+if (res !== true)
+{
+    console.log("*** %s", res);
+}
+
+// vim: set filetype=javascript:
