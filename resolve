@@ -133,10 +133,27 @@ resolve.on('end', function() {
 });
 
 resolve.on('response', function(records, rinfo, response, raw) {
+    var from    = [];
+    if (Array.isArray(rinfo))
+    {
+        rinfo.forEach(function(ri) {
+            var str = ri.address +':'+ ri.port;
+
+            if (from.indexOf(str) < 0)
+            {
+                from.push( str );
+            }
+        });
+    }
+    else
+    {
+        from.push( rinfo.address +':'+ rinfo.port );
+    }
+
     console.log(  "========================================================\n"
-                + "Response from %s:%s: (%d records)\n"
+                + "Response from %s: (%d records)\n"
                 + "%s",
-                rinfo.address, rinfo.port, records.length,
+                from.join(', '), records.length,
                 JSON.stringify(records, null, 2));
     //return;
 
