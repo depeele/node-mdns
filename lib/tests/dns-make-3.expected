@@ -1,7 +1,8 @@
 --------------------------------------------------------------
 Generated message:
-Header: id:2, qr:0 (query), opcode:0, aa:0, tc:0, rd:1, ra:0, z:0, ad:0, cd:0, 
-      : rcode:0 (NOERROR), qdCount:1, anCount:0, nsCount:0, arCount:0
+Header: id: 2, opcode: QUERY, status: NOERROR
+      : flags: rd
+      : Question: 1, Answer: 0, Authority: 0, Additional: 0
 
 1 question
    0: popd.ix.netcom.com.: qtype:1 (A), qclass:1 (IN)

@@ -3,8 +3,8 @@ Unpack mesage from 34 bytes of raw data:
 message:
 { header: 
    { id: 0,
-     qr: 0,
      opcode: 0,
+     qr: 0,
      aa: 0,
      tc: 0,
      rd: 0,
