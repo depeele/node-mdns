@@ -148,26 +148,52 @@ resolve.on('response', function(records, rinfo, response, raw) {
     else
     {
         from.push( rinfo.address +':'+ rinfo.port );
+
+        rinfo    = [ rinfo ];
+        response = [ response ];
+        raw      = [ raw ];
     }
 
     console.log(  "========================================================\n"
-                + "Response from %s: (%d records)\n"
-                + "%s",
-                from.join(', '), records.length,
-                JSON.stringify(records, null, 2));
+                + "Response from %s: (%d records in %d responses)",
+                from.join(', '), records.length, response.length);
+
+    records.forEach(function(record, idex) {
+        if (record.data)
+        {
+            console.log("%d: { \"data\": [ %s ]}",
+                        idex,
+                        Utils.buf2hex(record.data, {
+                            noOffsets:      true,
+                            prefixOctets:   true,
+                            octetSeparator: ','
+                        }));
+        }
+        else
+        {
+            console.log("%d: %s", idex, JSON.stringify(record, null, 2));
+        }
+    });
     //return;
 
-    console.log(  "========================================================\n"
-                + "Response from %s:%s: (%d bytes)\n"
-                + "--------------------------------------------------------\n"
-                + "%s\n"
-                + "--------------------------------------------------------\n"
-                + "%d bytes as raw data:\n"
-                + "%s\n",
-                rinfo.address, rinfo.port, raw.length,
-                response,
-                raw.length,
-                Utils.buf2hex(raw, {octetsPer: 16, ascii: true}));
+    for (var idex = 0, len = response.length; idex < len; idex++)
+    {
+        var ri  = rinfo[ idex ],
+            rsp = response[ idex ],
+            dat = raw[ idex ];
+
+        console.log(  "=====================================================\n"
+                    + "Response from %s:%s: (%d bytes)\n"
+                    + "-----------------------------------------------------\n"
+                    + "%s\n"
+                    + "-----------------------------------------------------\n"
+                    + "%d bytes as raw data:\n"
+                    + "%s\n",
+                    ri.address, ri.port, dat.length,
+                    rsp,
+                    dat.length,
+                    Utils.buf2hex(dat, {octetsPer: 16, ascii: true}));
+    }
 });
 
 var res = resolve.begin();
