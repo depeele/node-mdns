@@ -161,13 +161,32 @@ resolve.on('response', function(records, rinfo, response, raw) {
     records.forEach(function(record, idex) {
         if (record.data)
         {
-            console.log("%d: { \"data\": [ %s ]}",
-                        idex,
-                        Utils.buf2hex(record.data, {
-                            noOffsets:      true,
-                            prefixOctets:   true,
-                            octetSeparator: ','
-                        }));
+            if (record.code)
+            {
+                // OPT record
+                console.log("%d: { \"code\": %d,\n"
+                            + "  \"length\": %d,\n"
+                            + "  \"data\": [ %s ]}",
+                            idex,
+                            record.code,
+                            record.length,
+                            Utils.buf2hex(record.data, {
+                                noOffsets:      true,
+                                prefixOctets:   true,
+                                octetSeparator: ','
+                            }));
+            }
+            else
+            {
+                // RAW data
+                console.log("%d: { \"data\": [ %s ]}",
+                            idex,
+                            Utils.buf2hex(record.data, {
+                                noOffsets:      true,
+                                prefixOctets:   true,
+                                octetSeparator: ','
+                            }));
+            }
         }
         else
         {
