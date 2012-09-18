@@ -1,0 +1,239 @@
+#!/usr/bin/env node
+var Util    = require('util'),
+    Path    = require('path'),
+    Mdns    = require('./lib/mdns.js'),
+    Utils   = require('./lib/utils.js'),
+    prog    = Path.basename(process.argv[1]),
+    argv    = process.argv.slice(2),
+    argc    = argv.length,
+    update  = Mdns.Update({
+                server: {address:'127.0.0.1', port:53}
+              });
+
+/************************************************************************
+ * Process arguments
+ *
+ */
+for (var idex = 0; idex < argc; idex++)
+{
+    var arg = argv[idex];
+
+    switch (arg)
+    {
+    case '-s':
+    case '--server':
+        update.server( argv[++idex] );
+        break;
+
+    case '--timeout':
+        update.timeout = argv[++idex];
+        break;
+
+    case '-z':
+    case '--zone':
+        /***********************************
+         * The target zone
+         *  name[:class]
+         *
+         */
+        var parts   = argv[++idex].split(':');
+
+        update.zone( {name: parts[0], class:parts[1]} );
+        break;
+
+    case '-a':
+    case '--add':
+        /***********************************
+         * Add a record
+         *
+         *  name type ttl rdata
+         */
+        if ( (idex + 4) > argc )
+        {
+            console.log("*** Missing parameters for '--add'");
+            help();
+
+            process.exit(-1);
+        }
+
+        update.add({
+            name:   argv[++idex],
+            type:   argv[++idex],
+            class:  update.zone().qclass,
+            ttl:    argv[++idex],
+            rdata:  JSON.parse(argv[++idex])
+        });
+
+        break;
+
+    case '-d':
+    case '--del':
+    case '--delete':
+        /***********************************
+         * Delete a record
+         *
+         *  name type [ class rdata ]
+         */
+        if ( (idex + 2) > argc )
+        {
+            console.log("*** Missing parameters for '--delete'");
+            help();
+
+            process.exit(-1);
+        }
+
+        var rec = {
+                name:   argv[++idex],
+                type:   argv[++idex]
+            };
+
+        if (idex < argv)
+        {
+            rec.class = argv[++idex];   //update.zone().class,
+            rec.rdata = JSON.parse(argv[++idex]);
+        }
+        else
+        {
+            rec.class = 'ANY';
+        }
+
+        update.del( rec );
+        break;
+
+    case '-?':
+    case '-h':
+    case '--help':
+        help();
+        process.exit(0);
+        break;
+
+    default:
+        console.log("*** Unknown argument [ %s ]", arg);
+        help();
+        process.exit(-1);
+        break;
+    }
+}
+
+function help()
+{
+    console.log(  "Usage: %s [options] quer(ies)\n"
+                + "     :     options:\n"
+                + "     :       -s server[:port] \n"
+                + "     :       -z zone.name[:class]\n"
+                + "     :       -a host.name type ttl JSON.rdata\n"
+                + "     :       -d host.name type [ class JSON.rdata ]\n"
+                + "     :       --timeout secs\n",
+                prog);
+}
+
+/************************************************************************
+ * Begin update
+ *
+ */
+/*
+console.log("update: %s", Util.inspect(update, false, 20));
+process.exit(0);
+// */
+
+update.on('error', function(e) {
+    console.log('*** Error: %s', e);
+});
+
+update.on('timeout', function() {
+    console.log('*** timeout');
+    process.exit(0);
+});
+
+update.on('end', function() {
+    console.log('complete');
+});
+
+update.on('response', function(records, rinfo, response, raw) {
+    var from    = [];
+    if (Array.isArray(rinfo))
+    {
+        rinfo.forEach(function(ri) {
+            var str = ri.address +':'+ ri.port;
+
+            if (from.indexOf(str) < 0)
+            {
+                from.push( str );
+            }
+        });
+    }
+    else
+    {
+        from.push( rinfo.address +':'+ rinfo.port );
+
+        rinfo    = [ rinfo ];
+        response = [ response ];
+        raw      = [ raw ];
+    }
+
+    console.log(  "========================================================\n"
+                + "Response from %s: (%d records in %d responses)",
+                from.join(', '), records.length, response.length);
+
+    records.forEach(function(record, idex) {
+        if (record.data)
+        {
+            if (record.code)
+            {
+                // OPT record
+                console.log("%d: { \"code\": %d,\n"
+                            + "  \"length\": %d,\n"
+                            + "  \"data\": [ %s ]}",
+                            idex,
+                            record.code,
+                            record.length,
+                            Utils.buf2hex(record.data, {
+                                noOffsets:      true,
+                                prefixOctets:   true,
+                                octetSeparator: ','
+                            }));
+            }
+            else
+            {
+                // RAW data
+                console.log("%d: { \"data\": [ %s ]}",
+                            idex,
+                            Utils.buf2hex(record.data, {
+                                noOffsets:      true,
+                                prefixOctets:   true,
+                                octetSeparator: ','
+                            }));
+            }
+        }
+        else
+        {
+            console.log("%d: %s", idex, JSON.stringify(record, null, 2));
+        }
+    });
+    //return;
+
+    for (var idex = 0, len = response.length; idex < len; idex++)
+    {
+        var ri  = rinfo[ idex ],
+            rsp = response[ idex ],
+            dat = raw[ idex ];
+
+        console.log(  "=====================================================\n"
+                    + "Response from %s:%s: (%d bytes)\n"
+                    + "-----------------------------------------------------\n"
+                    + "%s\n"
+                    + "-----------------------------------------------------\n"
+                    + "%d bytes as raw data:\n"
+                    + "%s\n",
+                    ri.address, ri.port, dat.length,
+                    rsp,
+                    dat.length,
+                    Utils.buf2hex(dat, {octetsPer: 16, ascii: true}));
+    }
+});
+
+var res = update.begin();
+if (res !== true)
+{
+    console.log("*** %s", res);
+}
