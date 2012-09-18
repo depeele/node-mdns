@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var Dgram       = require('dgram'),
-    Path        = require('path'),
+var Path        = require('path'),
     Mdns        = require('./lib/mdns'),
     Utils       = require('./lib/utils'),
     prog        = Path.basename(process.argv[1]),
