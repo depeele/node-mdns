@@ -1,32 +1,38 @@
 --------------------------------------------------------------
 Unpack mesage from 36 bytes of raw data:
 message:
-{ header: 
-   { id: 2,
-     opcode: 0,
-     qr: 0,
-     aa: 0,
-     tc: 0,
-     rd: 1,
-     ra: 0,
-     z: 0,
-     ad: 0,
-     cd: 0,
-     rcode: 0,
-     qdCount: 1,
-     anCount: 0,
-     nsCount: 0,
-     arCount: 0,
-     consumed: 12 },
-  question: 
-   [ { qname: 'popd.ix.netcom.com.',
-       qtype: 1,
-       qclass: 1,
-       consumed: 24 } ],
-  answer: [],
-  authority: [],
-  additional: [],
-  consumed: 36 }
+{
+  "header": {
+    "id": 2,
+    "opcode": 0,
+    "qr": 0,
+    "aa": 0,
+    "tc": 0,
+    "rd": 1,
+    "ra": 0,
+    "z": 0,
+    "ad": 0,
+    "cd": 0,
+    "rcode": 0,
+    "qdCount": 1,
+    "anCount": 0,
+    "nsCount": 0,
+    "arCount": 0,
+    "consumed": 12
+  },
+  "question": [
+    {
+      "qname": "popd.ix.netcom.com.",
+      "qtype": 1,
+      "qclass": 1,
+      "consumed": 24
+    }
+  ],
+  "answer": [],
+  "authority": [],
+  "additional": [],
+  "consumed": 36
+}
 --------------------------------------------------------------
 Packed message (36 bytes):
  0x0000: 00 02 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 

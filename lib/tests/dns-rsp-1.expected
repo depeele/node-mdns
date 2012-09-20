@@ -1,122 +1,206 @@
 --------------------------------------------------------------
 Unpack mesage from 310 bytes of raw data:
 message:
-{ header: 
-   { id: 2,
-     opcode: 0,
-     qr: 1,
-     aa: 1,
-     tc: 0,
-     rd: 1,
-     ra: 1,
-     z: 0,
-     ad: 0,
-     cd: 0,
-     rcode: 0,
-     qdCount: 1,
-     anCount: 3,
-     nsCount: 6,
-     arCount: 6,
-     consumed: 12 },
-  question: 
-   [ { qname: 'popd.ix.netcom.com.',
-       qtype: 1,
-       qclass: 1,
-       consumed: 24 } ],
-  answer: 
-   [ { name: 'popd.ix.netcom.com.',
-       type: 5,
-       class: 1,
-       ttl: 60,
-       rdata: { cname: 'popd.best.ix.netcom.com.', consumed: 14 },
-       consumed: 24 },
-     { name: 'popd.best.ix.netcom.com.',
-       type: 5,
-       class: 1,
-       ttl: 0,
-       rdata: { cname: 'ix6.ix.netcom.com.', consumed: 8 },
-       consumed: 18 },
-     { name: 'ix6.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '199.182.120.6', consumed: 6 },
-       consumed: 16 } ],
-  authority: 
-   [ { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'ns1.ix.netcom.com.', consumed: 8 },
-       consumed: 18 },
-     { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'ns2.ix.netcom.com.', consumed: 8 },
-       consumed: 18 },
-     { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'ns3.ix.netcom.com.', consumed: 8 },
-       consumed: 18 },
-     { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'ns4.ix.netcom.com.', consumed: 8 },
-       consumed: 18 },
-     { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'dfw-ixns1.ix.netcom.com.', consumed: 14 },
-       consumed: 24 },
-     { name: 'ix.netcom.com.',
-       type: 2,
-       class: 1,
-       ttl: 7200,
-       rdata: { ns: 'dfw-ixns2.ix.netcom.com.', consumed: 14 },
-       consumed: 24 } ],
-  additional: 
-   [ { name: 'ns1.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '199.182.120.203', consumed: 6 },
-       consumed: 16 },
-     { name: 'ns2.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '199.182.120.202', consumed: 6 },
-       consumed: 16 },
-     { name: 'ns3.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '199.182.120.1', consumed: 6 },
-       consumed: 16 },
-     { name: 'ns4.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '199.182.120.2', consumed: 6 },
-       consumed: 16 },
-     { name: 'dfw-ixns1.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '206.214.98.33', consumed: 6 },
-       consumed: 16 },
-     { name: 'dfw-ixns2.ix.netcom.com.',
-       type: 1,
-       class: 1,
-       ttl: 7200,
-       rdata: { a: '206.214.98.34', consumed: 6 },
-       consumed: 16 } ],
-  consumed: 310 }
+{
+  "header": {
+    "id": 2,
+    "opcode": 0,
+    "qr": 1,
+    "aa": 1,
+    "tc": 0,
+    "rd": 1,
+    "ra": 1,
+    "z": 0,
+    "ad": 0,
+    "cd": 0,
+    "rcode": 0,
+    "qdCount": 1,
+    "anCount": 3,
+    "nsCount": 6,
+    "arCount": 6,
+    "consumed": 12
+  },
+  "question": [
+    {
+      "qname": "popd.ix.netcom.com.",
+      "qtype": 1,
+      "qclass": 1,
+      "consumed": 24
+    }
+  ],
+  "answer": [
+    {
+      "name": "popd.ix.netcom.com.",
+      "type": 5,
+      "class": 1,
+      "ttl": 60,
+      "rdata": {
+        "cname": "popd.best.ix.netcom.com.",
+        "consumed": 14
+      },
+      "consumed": 24
+    },
+    {
+      "name": "popd.best.ix.netcom.com.",
+      "type": 5,
+      "class": 1,
+      "ttl": 0,
+      "rdata": {
+        "cname": "ix6.ix.netcom.com.",
+        "consumed": 8
+      },
+      "consumed": 18
+    },
+    {
+      "name": "ix6.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "199.182.120.6",
+        "consumed": 6
+      },
+      "consumed": 16
+    }
+  ],
+  "authority": [
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "ns1.ix.netcom.com.",
+        "consumed": 8
+      },
+      "consumed": 18
+    },
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "ns2.ix.netcom.com.",
+        "consumed": 8
+      },
+      "consumed": 18
+    },
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "ns3.ix.netcom.com.",
+        "consumed": 8
+      },
+      "consumed": 18
+    },
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "ns4.ix.netcom.com.",
+        "consumed": 8
+      },
+      "consumed": 18
+    },
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "dfw-ixns1.ix.netcom.com.",
+        "consumed": 14
+      },
+      "consumed": 24
+    },
+    {
+      "name": "ix.netcom.com.",
+      "type": 2,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "ns": "dfw-ixns2.ix.netcom.com.",
+        "consumed": 14
+      },
+      "consumed": 24
+    }
+  ],
+  "additional": [
+    {
+      "name": "ns1.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "199.182.120.203",
+        "consumed": 6
+      },
+      "consumed": 16
+    },
+    {
+      "name": "ns2.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "199.182.120.202",
+        "consumed": 6
+      },
+      "consumed": 16
+    },
+    {
+      "name": "ns3.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "199.182.120.1",
+        "consumed": 6
+      },
+      "consumed": 16
+    },
+    {
+      "name": "ns4.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "199.182.120.2",
+        "consumed": 6
+      },
+      "consumed": 16
+    },
+    {
+      "name": "dfw-ixns1.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "206.214.98.33",
+        "consumed": 6
+      },
+      "consumed": 16
+    },
+    {
+      "name": "dfw-ixns2.ix.netcom.com.",
+      "type": 1,
+      "class": 1,
+      "ttl": 7200,
+      "rdata": {
+        "a": "206.214.98.34",
+        "consumed": 6
+      },
+      "consumed": 16
+    }
+  ],
+  "consumed": 310
+}
 --------------------------------------------------------------
 Packed message (310 bytes):
  0x0000: 00 02 85 80 00 01 00 03 00 06 00 06 04 70 6f 70 
