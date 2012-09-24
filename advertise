@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+var Path        = require('path'),
+    Mdns        = require('./lib/mdns'),
+    Utils       = require('./lib/utils'),
+    prog        = Path.basename(process.argv[1]),
+    argv        = process.argv.slice(2),
+    argc        = argv.length,
+    serviceType = null,
+    config      = {};
+
+/************************************************************************
+ * Process arguments
+ *
+ */
+for (var idex = 0; idex < argc; idex++)
+{
+    var arg = argv[idex];
+
+    switch (arg)
+    {
+    case '-n':
+    case '--name':
+        config.name = argv[++idex];
+        break;
+
+    case '-d':
+    case '--domain':
+        config.domain = argv[++idex];
+        break;
+
+    case '-h':
+    case '--host':
+        config.host = argv[++idex];
+        break;
+
+    case '-p':
+    case '--port':
+        config.port = argv[++idex];
+        break;
+
+    case '-r':
+    case '--remove':
+        config.goodbye = true;
+        break;
+
+    case '-?':
+    case '-h':
+    case '--help':
+        usage();
+        process.exit(0);
+        break;
+
+    default:
+        serviceType = arg;
+        break;
+    }
+}
+
+console.log("serviceType: %j", serviceType);
+if (! serviceType)
+{
+    usage();
+    process.exit(-1);
+}
+
+/************************************************************************
+ * Begin advertisement
+ *
+ */
+var advertise   = Mdns.Advertise( serviceType, config );
+
+advertise.on('listening', function(ainfo) {
+    console.log('Awaiting mDNS responses on %s:%s...',
+                ainfo.address, ainfo.port);
+});
+
+advertise.on('error', function(e) {
+    console.log('*** Error: %s', e);
+});
+
+advertise.on('end', function() {
+    console.log('complete');
+});
+
+advertise.on('query', function(query, rinfo, raw) {
+    console.log(  "========================================================\n"
+                + "Query from %s:%s: (%d bytes)\n"
+                + "-----------------------------------------------------\n"
+                + "%s\n",
+                rinfo.address, rinfo.port, raw.length,
+                query);
+    return;
+
+    console.log(  "-----------------------------------------------------\n"
+                + "%d bytes as raw data:\n"
+                + "%s\n",
+                raw.length,
+                Utils.buf2hex(raw, {octetsPer: 16, ascii: true}));
+});
+
+advertise.on('response', function(response, rinfo, raw) {
+    console.log(  "========================================================\n"
+                + "%s: (%d bytes)\n"
+                + "-----------------------------------------------------\n"
+                + "%s\n",
+                (rinfo ? 'Response to '+ rinfo.address +':'+ rinfo.port
+                       : 'Goodbye'),
+                raw.length,
+                response);
+    return;
+
+    console.log(  "-----------------------------------------------------\n"
+                + "%d bytes as raw data:\n"
+                + "%s\n",
+                raw.length,
+                Utils.buf2hex(raw, {octetsPer: 16, ascii: true}));
+});
+
+// Kick off the advertisement and associated responder
+var res = advertise.begin();
+if (res !== true)
+{
+    console.log("*** %s", res);
+}
+
+function usage()
+{
+    console.log(  "Usage: %s [options] serviceType\n"
+                + "     :     options:\n"
+                + "     :       -r (remove service advertisement)\n"
+                + "     :       -n service/instance name [ hostname ]\n"
+                + "     :       -d service domain [ .local ]\n"
+                + "     :       -h service provider hostname [ hostname ]\n"
+                + "     :       -p service provider port\n",
+                prog);
+}
+
+// vim: set filetype=javascript:

@@ -79,7 +79,6 @@ for (var idex = 0; idex < argc; idex++)
 
             types[idex] = val;
         });
-console.log('types: %j', types);
         break;
 
     case '--timeout':
