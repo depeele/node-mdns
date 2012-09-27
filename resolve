@@ -152,6 +152,7 @@ resolve.on('response', function(records, rinfo, response, raw) {
         raw      = [ raw ];
     }
 
+    /*
     console.log(  "========================================================\n"
                 + "Response from %s: (%d records in %d responses)",
                 from.join(', '), records.length, response.length);
@@ -192,6 +193,7 @@ resolve.on('response', function(records, rinfo, response, raw) {
         }
     });
     //return;
+    // */
 
     for (var idex = 0, len = response.length; idex < len; idex++)
     {
@@ -200,16 +202,16 @@ resolve.on('response', function(records, rinfo, response, raw) {
             dat = raw[ idex ];
 
         console.log(  "=====================================================\n"
-                    + "Response from %s:%s: (%d bytes)\n"
-                    + "-----------------------------------------------------\n"
-                    + "%s\n"
-                    + "-----------------------------------------------------\n"
-                    + "%d bytes as raw data:\n"
-                    + "%s\n",
+                    + "Response from %s:%s: (%d bytes):\n"
+                    + "%s",
                     ri.address, ri.port, dat.length,
-                    rsp,
-                    dat.length,
+                    rsp);
+
+        /*
+        console.log(  "-----------------------------------------------------\n"
+                    + "raw data:\n%s",
                     Utils.buf2hex(dat, {octetsPer: 16, ascii: true}));
+        // */
     }
 });
 
