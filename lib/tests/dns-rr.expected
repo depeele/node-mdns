@@ -10,6 +10,7 @@ RR:
   "class": 1,
   "ttl": 60,
   "rdata": {
+    "rdlength": 15,
     "cname": "hx.oetcom.bom.",
     "consumed": 17
   },
@@ -32,6 +33,7 @@ RR:
   "class": 1,
   "ttl": 60,
   "rdata": {
+    "rdlength": 12,
     "cname": "popd.best.ix.netcom.com.",
     "consumed": 14
   },
@@ -53,6 +55,7 @@ RR:
   "class": 1,
   "ttl": 0,
   "rdata": {
+    "rdlength": 6,
     "cname": "ix6.ix.netcom.com.",
     "consumed": 8
   },
@@ -74,6 +77,7 @@ RR:
   "class": 1,
   "ttl": 7200,
   "rdata": {
+    "rdlength": 4,
     "a": "199.182.120.6",
     "consumed": 6
   },

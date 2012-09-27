@@ -7,12 +7,6 @@ Header: id: 2, opcode: QUERY, status: NOERROR
 1 question
    0: popd.ix.netcom.com.: qtype:1 (A), qclass:1 (IN)
 
-0 answers
-
-0 authorities
-
-0 additionals
-
 --------------------------------------------------------------
 Packed message (36 bytes):
  0x0000: 00 02 01 00 00 01 00 00 00 00 00 00 04 70 6f 70 
