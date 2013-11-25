@@ -31,7 +31,8 @@ client.on('message', function(msg, rinfo) {
                 Utils.buf2hex(msg, {octetsPer: 16, ascii: true}));
 });
 
-client.bind( Mdns.config.port, Mdns.config.ipv4, function() {
+//client.bind( Mdns.config.port, Mdns.config.ipv4, function() {
+client.bind( Mdns.config.port, null, function() {
     //client.setBroadcast(true);
 
     client.setMulticastTTL( Mdns.config.ttl );
