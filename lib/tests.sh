@@ -3,7 +3,7 @@
 for test in tests/*.js; do
      dir=`dirname  "${test}"`
     base=`basename "${test}" '.js'`
-     exp="${dir}/${base}.expected"
+     exp="${dir}/expected/${base}.js"
     if [ ! -f "${exp}" ]; then
         continue;
     fi
