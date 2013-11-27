@@ -1,0 +1,143 @@
+#!/usr/bin/env node
+var Path        = require('path'),
+    Mdns        = require('../lib/mdns'),
+    Utils       = require('../lib/utils'),
+    prog        = Path.basename(process.argv[1]),
+    argv        = process.argv.slice(2),
+    argc        = argv.length,
+    domain      = null,
+    request     = {
+        question:   [],
+        timeout:    0
+    };
+
+/************************************************************************
+ * Process arguments
+ *
+ */
+for (var idex = 0; idex < argc; idex++)
+{
+    var arg = argv[idex];
+
+    switch (arg)
+    {
+    case '--domain':
+        domain = argv[++idex];
+        break;
+
+    case '--timeout':
+        request.timeout = argv[++idex];
+        break;
+
+    case '-?':
+    case '-h':
+    case '--help':
+        console.log(  "Usage: %s [options] quer(ies)\n"
+                    + "     :     options:\n"
+                    + "     :       ---domain query-domain [ %s ]\n"
+                    + "     :       --timeout secs [ 0 ]\n",
+                    prog,
+                    Mdns.config.domain);
+        process.exit(0);
+        break;
+
+    default:
+        types.forEach(function(type) {
+            request.question.push( {qname: arg, qtype: 'PTR'} );
+        });
+        break;
+    }
+}
+
+if (request.question.length === 0)
+{
+    // Include the default service discovery_
+    request.question.push( {
+        qname: Mdns.serviceDiscovery(domain),
+        qtype: 'PTR'}
+    );
+}
+
+/************************************************************************
+ * Begin resolution
+ *
+ */
+var resolve = Mdns.Resolve( request )
+                    .on('listening', _listening)
+                    .on('error',     _error)
+                    .on('timeout',   _timeout)
+                    .on('end',       _end)
+                    .on('response',  _response);
+resolve.begin();
+
+/************************************************************************
+ * Resolution event handlers
+ *
+ */
+function _listening(ainfo) {
+    console.log('Awaiting mDNS responses on %s:%s...',
+                ainfo.address, ainfo.port);
+}
+
+function _error(e) {
+    console.log('*** Error: %s', e);
+}
+
+function _timeout() {
+    console.log('*** timeout');
+    process.exit(0);
+}
+
+function _end() {
+    console.log('complete');
+}
+
+var Handled = {};
+function _response(response, rinfo, raw, records) {
+    console.log(  "=====================================================\n"
+                + "Response from %s:%s: (%d bytes):\n"
+                + "%s",
+                rinfo.address, rinfo.port, raw.length,
+                response);
+
+    /*
+    console.log(  "-----------------------------------------------------\n"
+                + "raw data:\n%s",
+                Utils.buf2hex(dat, {octetsPer: 16, ascii: true}));
+    // */
+
+    return;
+
+    /* For the initial resolution, if there are answers, check if any are
+     * 'PTR'.  If so, initiate another resolution to location addresses for
+     * the identified resources.
+     */
+    if (response.header.anCount > 0)
+    {
+        var typePtr     = Mdns.consts.str2type('PTR'),
+            questions   = [];
+
+        response.answer.forEach(function(answer) {
+            if (answer.type !== typePtr)    { return; }
+
+            var ptr = answer.rdata.ptr;
+            if (Handled[ptr] === true)      { return; }
+            Handled[ptr] = true;
+
+            questions.push(
+                {qname: ptr, qtype: 'AAAA'},
+                {qname: ptr, qtype: 'A'},
+                {qname: ptr, qtype: 'SRV'}
+            );
+        });
+
+        if (questions.length > 0)
+        {
+            // Spawn a new resolution
+            resolve.sendQuestion( questions );
+        }
+    }
+
+}
+
+// vim: set filetype=javascript:

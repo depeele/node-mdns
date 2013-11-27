@@ -23,7 +23,7 @@ listen.on('end', function() {
     console.log('complete');
 });
 
-listen.on('response', function(records, rinfo, response, raw) {
+listen.on('response', function(response, rinfo, raw, records) {
     var from    = [];
     if (Array.isArray(rinfo))
     {

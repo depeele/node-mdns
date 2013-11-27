@@ -130,7 +130,7 @@ resolve.on('end', function() {
     console.log('complete');
 });
 
-resolve.on('response', function(records, rinfo, response, raw) {
+resolve.on('response', function(response, rinfo, raw, records) {
     var from    = [];
     if (Array.isArray(rinfo))
     {
