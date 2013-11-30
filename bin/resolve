@@ -5,7 +5,11 @@ var Path        = require('path'),
     prog        = Path.basename(process.argv[1]),
     argv        = process.argv.slice(2),
     argc        = argv.length,
-    request     = {question:[]},
+    config      = {},
+    request     = {
+        question:   [],
+        timeout:    undefined
+    },
     types       = [ 'A' ];
 
 /************************************************************************
@@ -28,17 +32,17 @@ for (var idex = 0; idex < argc; idex++)
             addr = withPort[0];
             port = withPort[1];
         }
-        if (! request.server)   { request.server = {}; }
+        if (! config.server)    { config.server = {}; }
 
-        request.server.address = addr;
-        if (port)   { request.server.port = port; }
+        config.server.address = addr;
+        if (port)   { config.server.port = port; }
         break;
 
     case '-p':
     case '--port':
-        if (! request.server)   { request.server = {}; }
+        if (! config.server)    { config.server = {}; }
 
-        request.server.port = argv[++idex];
+        config.server.port = argv[++idex];
         break;
 
     case '-t':
@@ -110,115 +114,65 @@ for (var idex = 0; idex < argc; idex++)
  * Begin resolution
  *
  */
-var resolve = Mdns.Resolve( request );
+var client  = Mdns.Client( config )
+                .on('listening', _onListening)
+                .on('error',     _onError)
+                .on('timeout',   _onTimeout)
+                .on('end',       _onEnd)
+                .on('response',  _onResponse);
 
-resolve.on('listening', function(ainfo) {
+/************************************************************************
+ * Event handlers
+ *
+ */
+function _onListening(ainfo) {
     console.log('Awaiting mDNS responses on %s:%s...',
                 ainfo.address, ainfo.port);
-});
 
-resolve.on('error', function(e) {
+    if (request.question.length > 0)
+    {
+        var req = client.resolve(request.question, request.timeout);
+        if (req instanceof Error)
+        {
+            console.log("*** %s", req);
+        }
+    }
+}
+
+function _onError(e) {
     console.log('*** Error: %s', e);
-});
+    client.close();
+}
 
-resolve.on('timeout', function() {
+function _onTimeout() {
     console.log('*** timeout');
+    client.close();
     process.exit(0);
-});
+}
 
-resolve.on('end', function() {
+function _onEnd() {
     console.log('complete');
-});
+}
 
-resolve.on('response', function(response, rinfo, raw, records) {
-    var from    = [];
-    if (Array.isArray(rinfo))
-    {
-        rinfo.forEach(function(ri) {
-            var str = ri.address +':'+ ri.port;
-
-            if (from.indexOf(str) < 0)
-            {
-                from.push( str );
-            }
-        });
-    }
-    else
-    {
-        from.push( rinfo.address +':'+ rinfo.port );
-
-        rinfo    = [ rinfo ];
-        response = [ response ];
-        raw      = [ raw ];
-    }
+function _onResponse(response, rinfo, raw) {
+    console.log(  "=====================================================\n"
+                + "Response from %s:%s: (%d bytes):\n"
+                + "%s",
+                rinfo.address, rinfo.port, raw.length,
+                response);
 
     /*
-    console.log(  "========================================================\n"
-                + "Response from %s: (%d records in %d responses)",
-                from.join(', '), records.length, response.length);
-
-    records.forEach(function(record, idex) {
-        if (record.data)
-        {
-            if (record.code)
-            {
-                // OPT record
-                console.log("%d: { \"code\": %d,\n"
-                            + "  \"length\": %d,\n"
-                            + "  \"data\": [ %s ]}",
-                            idex,
-                            record.code,
-                            record.length,
-                            Utils.buf2hex(record.data, {
-                                noOffsets:      true,
-                                prefixOctets:   true,
-                                octetSeparator: ','
-                            }));
-            }
-            else
-            {
-                // RAW data
-                console.log("%d: { \"data\": [ %s ]}",
-                            idex,
-                            Utils.buf2hex(record.data, {
-                                noOffsets:      true,
-                                prefixOctets:   true,
-                                octetSeparator: ','
-                            }));
-            }
-        }
-        else
-        {
-            console.log("%d: %s", idex, JSON.stringify(record, null, 2));
-        }
-    });
-    //return;
+    console.log(  "-----------------------------------------------------\n"
+                + "raw data:\n%s",
+                Utils.buf2hex(raw, {octetsPer: 16, ascii: true}));
     // */
 
-    for (var idex = 0, len = response.length; idex < len; idex++)
+    if (client.isMdns !== true)
     {
-        var ri  = rinfo[ idex ],
-            rsp = response[ idex ],
-            dat = raw[ idex ];
-
-        console.log(  "=====================================================\n"
-                    + "Response from %s:%s: (%d bytes):\n"
-                    + "%s",
-                    ri.address, ri.port, dat.length,
-                    rsp);
-
-        /*
-        console.log(  "-----------------------------------------------------\n"
-                    + "raw data:\n%s",
-                    Utils.buf2hex(dat, {octetsPer: 16, ascii: true}));
-        // */
+        client.close();
+        //delete client;
+        //process.exit(0);
     }
-});
-
-var res = resolve.begin();
-if (res !== true)
-{
-    console.log("*** %s", res);
 }
 
 // vim: set filetype=javascript:

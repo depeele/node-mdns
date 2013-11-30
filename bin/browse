@@ -6,10 +6,7 @@ var Path        = require('path'),
     argv        = process.argv.slice(2),
     argc        = argv.length,
     domain      = null,
-    request     = {
-        question:   [],
-        timeout:    0
-    };
+    timeout     = null;
 
 /************************************************************************
  * Process arguments
@@ -26,13 +23,14 @@ for (var idex = 0; idex < argc; idex++)
         break;
 
     case '--timeout':
-        request.timeout = argv[++idex];
+        timeout = argv[++idex];
         break;
 
     case '-?':
     case '-h':
     case '--help':
-        console.log(  "Usage: %s [options] quer(ies)\n"
+    default:
+        console.log(  "Usage: %s [options]\n"
                     + "     :     options:\n"
                     + "     :       ---domain query-domain [ %s ]\n"
                     + "     :       --timeout secs [ 0 ]\n",
@@ -40,60 +38,46 @@ for (var idex = 0; idex < argc; idex++)
                     Mdns.config.domain);
         process.exit(0);
         break;
-
-    default:
-        types.forEach(function(type) {
-            request.question.push( {qname: arg, qtype: 'PTR'} );
-        });
-        break;
     }
-}
-
-if (request.question.length === 0)
-{
-    // Include the default service discovery_
-    request.question.push( {
-        qname: Mdns.serviceDiscovery(domain),
-        qtype: 'PTR'}
-    );
 }
 
 /************************************************************************
  * Begin resolution
  *
  */
-var resolve = Mdns.Resolve( request )
-                    .on('listening', _listening)
-                    .on('error',     _error)
-                    .on('timeout',   _timeout)
-                    .on('end',       _end)
-                    .on('response',  _response);
-resolve.begin();
+var client  = Mdns.Client()
+                    .on('listening', _onListening)
+                    .on('error',     _onError)
+                    .on('timeout',   _onTimeout)
+                    .on('end',       _onEnd)
+                    .on('response',  _onResponse);
+
+client.discovery(domain, timeout);
 
 /************************************************************************
  * Resolution event handlers
  *
  */
-function _listening(ainfo) {
+function _onListening(ainfo) {
     console.log('Awaiting mDNS responses on %s:%s...',
                 ainfo.address, ainfo.port);
 }
 
-function _error(e) {
+function _onError(e) {
     console.log('*** Error: %s', e);
 }
 
-function _timeout() {
+function _onTimeout() {
     console.log('*** timeout');
     process.exit(0);
 }
 
-function _end() {
+function _onEnd() {
     console.log('complete');
 }
 
 var Handled = {};
-function _response(response, rinfo, raw, records) {
+function _onResponse(response, rinfo, raw, records) {
     console.log(  "=====================================================\n"
                 + "Response from %s:%s: (%d bytes):\n"
                 + "%s",
@@ -134,7 +118,7 @@ function _response(response, rinfo, raw, records) {
         if (questions.length > 0)
         {
             // Spawn a new resolution
-            resolve.sendQuestion( questions );
+            client.resolve( questions );
         }
     }
 
