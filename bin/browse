@@ -46,18 +46,21 @@ for (var idex = 0; idex < argc; idex++)
  *
  */
 var client  = Mdns.Client()
+                    .on('ready',     _onReady)
                     .on('listening', _onListening)
                     .on('error',     _onError)
                     .on('timeout',   _onTimeout)
                     .on('end',       _onEnd)
                     .on('response',  _onResponse);
 
-client.discovery(domain, timeout);
-
 /************************************************************************
  * Resolution event handlers
  *
  */
+function _onReady() {
+    client.discovery(domain, timeout);
+}
+
 function _onListening(ainfo) {
     console.log('Awaiting mDNS responses on %s:%s...',
                 ainfo.address, ainfo.port);

@@ -24,7 +24,9 @@ for (var idex = 0; idex < argc; idex++)
     {
     case '-s':
     case '--server':
-        var addr        = argv[++idex],
+        if (++idex > argc)  { return help(); }
+
+        var addr        = argv[idex],
             withPort    = addr.match(/^([^:]+):([0-9]+)/),
             port        = null;
         if (withPort)
@@ -40,14 +42,25 @@ for (var idex = 0; idex < argc; idex++)
 
     case '-p':
     case '--port':
-        if (! config.server)    { config.server = {}; }
+        if (++idex > argc)  { return help(); }
+        if (! config.server){ config.server = {}; }
 
-        config.server.port = argv[++idex];
+        config.server.port = argv[idex];
+        break;
+
+    case '-P':
+    case '--protocol':
+        if (++idex > argc)  { return help(); }
+        if (! config.server){ config.server = {}; }
+
+        config.server.proto = argv[idex];
         break;
 
     case '-t':
     case '--type':
-        types = argv[++idex].split(/\s*,\s*/);
+        if (++idex > argc)  { return help(); }
+
+        types = argv[idex].split(/\s*,\s*/);
 
         types.forEach(function(type, idex) {
             var val     = type;
@@ -86,20 +99,15 @@ for (var idex = 0; idex < argc; idex++)
         break;
 
     case '--timeout':
-        request.timeout = argv[++idex];
+        if (++idex > argc)  { return help(); }
+
+        request.timeout = argv[idex];
         break;
 
     case '-?':
     case '-h':
     case '--help':
-        console.log(  "Usage: %s [options] quer(ies)\n"
-                    + "     :     options:\n"
-                    + "     :       -s server[:port] \n"
-                    + "     :       -p port\n"
-                    + "     :       -t query-type\n"
-                    + "     :       --timeout secs\n",
-                    prog);
-        process.exit(0);
+        return help();
         break;
 
     default:
@@ -115,6 +123,7 @@ for (var idex = 0; idex < argc; idex++)
  *
  */
 var client  = Mdns.Client( config )
+                .on('ready',     _onReady)
                 .on('listening', _onListening)
                 .on('error',     _onError)
                 .on('timeout',   _onTimeout)
@@ -125,10 +134,7 @@ var client  = Mdns.Client( config )
  * Event handlers
  *
  */
-function _onListening(ainfo) {
-    console.log('Awaiting mDNS responses on %s:%s...',
-                ainfo.address, ainfo.port);
-
+function _onReady() {
     if (request.question.length > 0)
     {
         var req = client.resolve(request.question, request.timeout);
@@ -137,6 +143,11 @@ function _onListening(ainfo) {
             console.log("*** %s", req);
         }
     }
+}
+
+function _onListening(ainfo) {
+    console.log('Awaiting mDNS responses on %s:%s...',
+                ainfo.address, ainfo.port);
 }
 
 function _onError(e) {
@@ -170,9 +181,20 @@ function _onResponse(response, rinfo, raw) {
     if (client.isMdns !== true)
     {
         client.close();
-        //delete client;
-        //process.exit(0);
     }
+}
+
+function help()
+{
+    console.log(  "Usage: %s [options] quer(ies)\n"
+                + "     :     options:\n"
+                + "     :       -s server[:port] \n"
+                + "     :       -p port\n"
+                + "     :       -P protocol\n"
+                + "     :       -t query-type\n"
+                + "     :       --timeout secs\n",
+                prog);
+    process.exit(0);
 }
 
 // vim: set filetype=javascript:
